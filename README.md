@@ -7,10 +7,27 @@ Repozitorij z gradivi pri predmetu APPR v študijskem letu 2018/19
 * [![Shiny](http://mybinder.org/badge.svg)](http://beta.mybinder.org/v2/gh/jaanos/APPR-2018-19/master?urlpath=shiny/APPR-2018-19/projekt.Rmd) Shiny
 * [![RStudio](http://mybinder.org/badge.svg)](http://beta.mybinder.org/v2/gh/jaanos/APPR-2018-19/master?urlpath=rstudio) RStudio
 
-## Tematika
+## Spreminanje bruto domačega proizvoda po državah Evropske Unije in Slovenija
 
-Izbrali si boste temo, s katero se bo vaš projekt ukvarjal.
-Tukaj boste napisali, kje ste dobili podatke, ter kakšen je vaš cilj.
+## Osnovna ideja:
+V svojem projektu bom preučeval dinamiko spreminjanja BDP po različnih državah EU. Za študente Finančne matematike ter moje malenkosti nadvse zanimiva tema, s katero se bomo po zaključku šolanja pogosto srečevali, jo analizirali in rezultate interpretirali za različne namene.
+
+## Plan dela
+Največ časa bom porabil za analiziranje situacije v Sloveniji, ter kako se je spreminjala skozi leta(na voljo je za več kot 20 let podatkov). Pozoren bom tudi na to, kako je pri državah z različnimi stopnjami razvitosti, BDP naraščal/padal s spreminjajočo stopnjo. Glede na gospodarkso krizo v letih 2008/09 bo zagotovo zanimivo dogajanje v tistih letih in okrevanje po le tem. Poglaviten podatek bo seveda BDP na prebivalca, ki posredno izraža tudi gospodarsko moč vsake članice EU.
+
+## Zasnova podatkovnega modela
+Zbrane podatke bom poizkusil predstaviti na čimbolj jasen in bralcu zanimiv način, z dobro urejenimi tabelami, ter kjer bo možno, tudi z grafi in podobnimi oblikami predstavljanja. Tabele bom najprej predstavil za Slovenijo, nato pa jih primerjal z drugimi državami in ugotovitve poizkušal strniti v kratkih komentarjih. 
+
+## Opis podatkovnih virov
+Glavna vira za raziskovanje bosta bazi SURS(Satistični Urad Republike Slovenije) ter EUROSTAT(Evropski kazalci/številke za številna področja zanimanja). Podatki na teh straneh so v oblikah tabel, grafov.
+
+SURS:
+https://www.stat.si/StatWeb/Field/Index/1
+
+Eurostat:
+https://ec.europa.eu/eurostat/data/database
+
+
 
 ## Program
 
