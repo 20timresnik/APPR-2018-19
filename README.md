@@ -18,10 +18,10 @@ Največ časa bom porabil za analiziranje situacije v Sloveniji, ter kako se je 
 ## Zasnova podatkovnega modela
 Zbrane podatke bom poizkusil predstaviti na čimbolj jasen in bralcu zanimiv način, z dobro urejenimi tabelami, ter kjer bo možno, tudi z grafi in podobnimi oblikami predstavljanja. Tabele bom najprej predstavil za Slovenijo, nato pa jih primerjal z drugimi državami in ugotovitve poizkušal strniti v kratkih komentarjih. Grob oris tabel je sledeč:
 
-1.Tabela: BDP po različnih državah EU skozi leta
-2.Tabela: Deleži v Slovenskem BDP-ju ter njihovo spreminjanje
-3.Tabela: Stopnje rasti/padanje po evropskih državah
-4.Tabela: Primerjanje stopenj rasti glede na povprečje EU
+* 1.Tabela: BDP po različnih državah EU skozi leta
+* 2.Tabela: Deleži v Slovenskem BDP-ju ter njihovo spreminjanje
+* 3.Tabela: Stopnje rasti/padanje po evropskih državah
+* 4.Tabela: Primerjanje stopenj rasti glede na povprečje EU
 
 ## Opis podatkovnih virov
 Glavna vira za raziskovanje bosta bazi SURS(Satistični Urad Republike Slovenije) ter EUROSTAT(Evropski kazalci/številke za številna področja zanimanja). Podatki na teh straneh so v oblikah tabel, grafov.
