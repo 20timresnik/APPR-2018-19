@@ -1,23 +1,36 @@
 library(readr)
 library(reshape2)
+library(dplyr)
 
-delezi1 <- read_delim("delezi.csv", ";", col_names=TRUE, skip=4, na="-", 
-                     locale=locale(encoding="Windows-1250", decimal_mark="."))
-delezi1 <- delezi1[-c(15:23),]
-colnames(delezi1)[1] <- "Dejavnosti"
+podatki.slovenija <- read_delim("PodatkiSlovenija.csv",
+                                ";",
+                                col_names=TRUE,
+                                skip=4,
+                                na="-",
+                                n_max = 11,
+                                locale=locale(encoding="Windows-1250", decimal_mark="."))
+colnames(podatki.slovenija)[1] <- "Dejavnosti"
 
-delezi.tidy <- melt(delezi1, id.vars="Dejavnosti", measure.vars=names(delezi1)[-1],
-                    variable.name="Kvartali",value.name="Stalne cene, referenčno leto 2010, v mio €", na.rm=TRUE)
+podatki.slovenija <- melt(podatki.slovenija, id.vars="Dejavnosti", measure.vars=names(podatki.slovenija)[-1],
+                    variable.name="Leto",value.name="Stalne cene, referenčno leto 2010, v mio €", na.rm=TRUE)
 
-#delezi.tidy$Kvartali <- parse_integer(delezi.tidy$Kvartali)
+podatki.slovenija$Kvartal <- substr(podatki.slovenija$Leto,nchar(as.character(podatki.slovenija$Leto))-2+1,nchar(as.character(podatki.slovenija$Leto)))
 
-evropaA <- read_csv("evropaA.csv", skip=1, col_names=c('Kvartal', 'Drzava', 'Enota', 'Sezona', 'Dejavnost', 'Merilo',
+podatki.slovenija$Leto <- substr(podatki.slovenija$Leto,1,4)
+
+podatki.slovenija <- podatki.slovenija[,c("Dejavnosti", "Leto", "Kvartal", "Stalne cene, referenčno leto 2010, v mio €" )]
+
+
+podatki.evropa <- read_csv("PodatkiEvropa.csv", skip=1, col_names=c('Leto', 'Drzava', 'Enota', 'Sezona', 'Dejavnost', 'Merilo',
                                                'Stalne cene, referenčno leto 2010, v mio €','Dodatno'), na=":",locale=locale(encoding="Windows-1250"))
 
-evropaA$Enota <- NULL
-evropaA$Sezona <- NULL
-evropaA$Merilo <- NULL
-evropaA$Dodatno <- NULL
+podatki.evropa$Enota <- NULL
+podatki.evropa$Sezona <- NULL
+podatki.evropa$Merilo <- NULL
+podatki.evropa$Dodatno <- NULL
 
-evropaB <- evropaA[,c("Drzava","Dejavnost","Kvartal","Stalne cene, referenčno leto 2010, v mio €")]
+podatki.evropa$Kvartal <- substr(podatki.evropa$Leto,nchar(as.character(podatki.evropa$Leto))-2+1,nchar(as.character(podatki.evropa$Leto)))
 
+podatki.evropa$Leto <- substr(podatki.evropa$Leto,1,4)
+
+podatki.evropa <- podatki.evropa[,c("Drzava","Dejavnost","Leto","Kvartal", "Stalne cene, referenčno leto 2010, v mio €")]
