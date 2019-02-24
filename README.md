@@ -91,3 +91,4 @@ v datoteki `gitconfig` nastavite svoje ime in priimek ter e-poštni naslov
 ob naslednjem.zagonu bo mogoče delati commite.
 Te podatke lahko nastavite tudi z `git config --global` v konzoli
 (vendar bodo veljale le v trenutni seji).
+Preizkus git
