@@ -1,6 +1,6 @@
 ---
 title: "Poročilo pri predmetu Analiza podatkov s programom R"
-author: "Študent FMF"
+author: "Tim Resnik"
 output:
   html_document: default
   pdf_document:
@@ -26,45 +26,42 @@ source("lib/rstudio.r", encoding="UTF-8")
 
 # Izbira teme
 
-Za vzorec bomo prikazali nekaj podatkov o slovenskih občinah.
+Deleži BDP-ja v Sloveniji in Evropskih državah
 
-![](slike/grb.png)
+![](slike/bdp.jpg)
 
 ***
 
 # Obdelava, uvoz in čiščenje podatkov
 
-```{r uvoz, echo=FALSE, message=FALSE}
+```{r uvoz, echo=FALSE, message=FALSE, warning=FALSE}
 source("uvoz/uvoz.r", encoding="UTF-8")
 ```
 
-Uvozili smo podatke o občinah v obliki CSV s statističnega urada ter v obliki HTML
-z Wikipedije. Podatke imamo v dveh razpredelnicah v obliki *tidy data*.
+Uvozil sem podatke za deleže v BDP-jih v obliki CSV iz statističnega urada Slovenije(za Slovenijo)
+ter iz Eurostat-a(za države Evropske Unije). Podatke sem nato razvrstil v dve razpredelnici,
+kjer so sedaj v obliki *tidy data*.
 
-1. `druzine` - podatki o družinah za vsako občino
-  - `obcina` - spremenljivka: ime občine (neurejen faktor),
-  - `velikost.druzine` - spremenljivka: število otrok v družini (število: 1, 2, 3 ali 4, kjer zadnja vrednost pomeni 4 ali več),
-  - `stevilo.druzin` - meritev: število družin z ustreznim številom otrok v ustrezni občini (število).
 
-2. `obcine` - podatki o občinah
-  - `obcina` - spremenljivka: ime občine (neurejen faktor),
-  - `povrsina` - meritev: površina občine v km$^2$ (število),
-  - `prebivalci` - meritev: prebivalstvo občine (število),
-  - `gostota` - meritev: število prebivalcev na km$^2$ (število),
-  - `naselja` - meritev: število naselij v občini (število),
-  - `ustanovitev` - meritev: leto ustanovitve občine (število),
-  - `pokrajina` - meritev: pokrajina, ki ji občina pripada (neurejen faktor),
-  - `regija` - meritev: regija, ki ji občina pripada (neurejen faktor),
-  - `odcepitev` - meritev: podatki o občinah, od katerih se je občina odcepila (besedilo).
+1. `Slovenija` - podatki o deležih za Slovenijo
+  - `Dejavnosti` - spremenljivka : Deleži ki sestavljajo BDP (neurejen faktor)
+  - `Leto` - spremenljivka: Podatki so dostopni od leta 1995 naprej (števila od 1995 do 2018),
+  - `Kvartal` - spremenljivka: Leto je razdeljeno na štiri kvartale (števila od 1 do 4),
+  - `Vrednost`- meritev: Vrednost, izražena v mio €, stalne cene za referenčno leto 2010 (število).
 
-**Opomba**: da bi razpredelnica `obcine` res bila v obliki *tidy data*, bi morali odstraniti stolpec `gostota` (saj je izpeljan iz stolpcev `povrsina` in `prebivalci`), podatke o pokrajinah pa bi morali premakniti v drugo razpredelnico, saj nekatere občine pripadajo dvema pokrajinama. Podobno bi morali narediti tudi s stolpcem `odcepitev`.
+2. `Evropa` - podatki o deležih za Evropo
+  - `Drzava` - spremenljivka: Država iz EU(neurejen faktor),
+  - `Dejavnost` - spremenljivka: Deleži ki sestavljajo BDP (neurejen faktor),
+  - `Leto` - spremenljivka: Podatki so dostopni od leta 1995 naprej (števila od 1995 do 2018),
+  - `Kvartal` - spremenljivka: Leto je razdeljeno na štiri kvartale (števila od 1 do 4),
+  - `Vrednost` - meritev: Vrednost, izražena v mio €, stalne cene za referenčno leto 2010 (število).
 
-Spodnji graf prikazuje porazdelitev števila naselij v občinah.
 
-```{r histogram, echo=FALSE, message=FALSE, fig.align='center', fig.cap='Histogram števila naselij v občinah'}
-ggplot(obcine, aes(x=naselja)) + geom_histogram() +
-  ggtitle("Pogostost števila naselij") + xlab("Število naselij") + ylab("Število občin")
-```
+**Opomba1**: Za to, da sta tabeli za Slovenijo in Evropo v obliki *tidy data*, sem iz obeh odstranil vrstice s podatki o
+`dejavnosti C` (`predelovalne dejavnosti` oz. `manufacturing`), saj so podatki že vsebovani v večjem sklopu, 
+ki vsebuje `dejavnosti BCDE`.
+**Opomba2**: V tabeli za Evropo sem odstranil nepomembne stolpce za mojo analizo(`Enota`, `Sezona` in `Merilo`), saj sem že ob pridobivanju CSV datotek te nastavil tako, da se niso spreminjale. 
+
 
 ***
 
@@ -73,38 +70,26 @@ ggplot(obcine, aes(x=naselja)) + geom_histogram() +
 ```{r vizualizacija, echo=FALSE, message=FALSE, warning=FALSE, results='hide'}
 source("vizualizacija/vizualizacija.r", encoding="UTF-8")
 ```
+Ob pregledovanju podatkov sem se odločil, da bom največ časa namenil analizi Slovenije, pri evropskih državah pa bom bolj pozoren na Španijo, Nemčijo, Češko in Grčijo. Navedena skupina držav se med seboj dodobra razlikuje po kulturi, načinu življenja in razmišljanja ter bo zato primerna testna skupina za ugotavljanje zaključkov.
 
-Spodnji zemljevid prikazuje povprečno velikost družine za vsako občino.
+Prvi graf je nadvse splošen, poznan večini ljudi zaradi svoje preprostosti in celosti, predstavlja namreč BDP na prebivalca evropskih držav v primerjavi s Slovenijo za obdobje več kot 20 let.
+Pomembno je, da se podatki predstavljajo v tem primeru na osnovi 'per capita'(na prebivalca), saj ta odstrani učinek večjega BDP-ja zaradi številčnejšega naroda, in enako v drugi smeri.
+Kot smo pričakovali, prednjači Nemčija, medtem ko sta bili Španija in Grčija vrsto let zelo izenačeni, nakar je zadnja finančna kriza Grčijo prizadela mnogo bolj kot ostale testne države. V primerjavi Slovenije in Češke, se je naša prednost povečevala v letih do 2008, nato pa se začela zmanjševati, iz česar lahko ugotovimo, da so se rojaki iz vzhoda bolje spoprijeli z gospodarskimi izzivi 2. desetletja.
 
-```{r zemljevid, echo=FALSE, fig.align='center', fig.cap='Zemljevid povprečnega števila otrok v družini'}
-ggplot() + geom_polygon(data=left_join(zemljevid, povprecja, by=c("OB_UIME"="obcina")),
-                        aes(x=long, y=lat, group=group, fill=povprecje)) +
-  ggtitle("Povprečno število otrok v družini") + xlab("") + ylab("") +
-  guides(fill=guide_colorbar(title="Povprečje"))
-```
+print(graf1)
+
 
 ***
 
 # Napredna analiza podatkov
 
-```{r analiza, echo=FALSE, message=FALSE}
+```{r analiza, echo=FALSE, message=FALSE, warning=FALSE}
 source("analiza/analiza.r", encoding="UTF-8")
 ```
 
-Spodnji graf prikazuje povezavo med številom naselij in površino občine.
-
-```{r graf, echo=FALSE, fig.align='center', fig.cap='Povezava med številom naselij in površino občine'}
-ggplot(inner_join(obcine, data.frame(obcina=names(skupine),
-                                     skupina=factor(skupine)), by="obcina")
-, aes(x=povrsina, y=naselja, color=skupina, size=prebivalci/1000)) + geom_point() +
-  ggtitle("Število naselij glede na površino občine") +
-  xlab(expression("Površina (km"^2 * ")")) + ylab("Št. naselij") +
-  guides(color=guide_legend(title="Skupina"),
-         size=guide_legend(title="Prebivalci (* 1000)"))
-```
 
 ***
 
-```{r shiny, echo=FALSE}
+```{r shiny, echo=FALSE, warning=FALSE}
 shinyAppDir("shiny", options=list(width="100%", height=600))
 ```
