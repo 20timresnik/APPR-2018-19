@@ -68,3 +68,15 @@ podatki.evropa$Kvartal <- parse_number(podatki.evropa$Kvartal)
 # Drzave in dejavnosti spremenim v factorje
 podatki.evropa$Drzava <- as.factor(podatki.evropa$Drzava)
 podatki.evropa$Dejavnost <- as.factor(podatki.evropa$Dejavnost)
+
+
+populacija.evropa <- read_csv("podatki/PopulacijaEvropa.csv",skip=1, 
+                              col_names=c('Starost', 'Drzava', 'Enota', 'Cas', 'Spol', 'Vrednost','Dodatno'))
+
+populacija.evropa$Starost <- NULL
+populacija.evropa$Enota <- NULL
+populacija.evropa$Cas <- NULL
+populacija.evropa$Spol <- NULL
+populacija.evropa$Dodatno <- NULL
+
+populacija.evropa$Drzava <- as.factor(populacija.evropa$Drzava)
