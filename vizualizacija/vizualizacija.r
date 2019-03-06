@@ -11,7 +11,7 @@ library(ggplot2)
 # 3. faza: Vizualizacija podatkov
 
 bdp.evropa <- podatki.evropa %>% drop_na(5) %>% group_by(Drzava, Leto) %>% 
-  summarise(BDP=sum(`Vrednost`, na.rm=TRUE))
+  summarise(BDP=sum(`Vrednost`, na.rm=TRUE)) %>% inner_join(populacija.evropa, by = "Drzava")
 
 bdp.kvartali <- podatki.evropa %>% drop_na(5) %>% group_by(Drzava, Leto, Kvartal) %>%
   summarise(BDP=sum(Vrednost, na.rm =TRUE))
@@ -22,51 +22,77 @@ bdp.kvartali.slovenija <- podatki.slovenija %>% drop_na(4) %>% group_by(Dejavnos
 bdp.kvartali.evropa <- podatki.evropa %>% drop_na(5) %>% group_by(Drzava, Dejavnost, Leto) %>%
   summarise(BDP=sum(Vrednost, na.rm =TRUE))
 
-# Graf nemškega, španskega, grškega, slovenskega in češkega BDP na prebivalca
-graf1 <- ggplot(bdp.evropa,aes(x=Leto, y= BDP)) +
-  geom_bar(data = bdp.evropa %>% filter(Drzava == 'Germany (until 1990 former territory of the FRG)', Leto != 2018, Leto != 1995), aes(x=Leto, y=BDP/83),stat = "identity",position = position_dodge(),width = 0.5)+
-  geom_bar(data = bdp.evropa %>% filter(Drzava == 'Spain', Leto != 2018, Leto != 1995), aes(x=Leto, y=BDP/46.7),stat = "identity",fill = "grey",position = position_dodge(),width = 0.5)+
-  geom_bar(data = bdp.evropa %>% filter(Drzava == 'Greece', Leto != 2018, Leto != 1995),aes(x=Leto, y=BDP/10.7),stat = "identity", fill = "red",position = position_dodge(),width = 0.5)+
-  geom_bar(data = bdp.evropa %>% filter(Drzava == 'Slovenia', Leto != 2018, Leto != 1995), aes(x=Leto, y=BDP/2),stat = "identity",fill = "blue",position = position_dodge(),width = 0.5)+
-  geom_bar(data = bdp.evropa %>% filter(Drzava == 'Czechia', Leto != 2018), aes(x=Leto, y=BDP/10),stat = "identity",fill = "green",position = position_dodge(),width = 0.5)+
-  xlab("Leto") + ylab("Vrednost BDP na prebivalca v €") + ggtitle("Primerjava petih držav")+
-  theme(axis.title = element_text(size = 11), plot.title = element_text(size = 15, hjust = 0.5))
+bdp.kvartali.evropa.skupaj <- podatki.evropa %>% drop_na(5) %>% 
+  group_by(Dejavnost, Leto) %>% summarise(BDP=sum(Vrednost, na.rm = TRUE))
+
+bdp.evropa.2017 <- podatki.evropa %>% drop_na(5) %>% group_by(Drzava, Leto) %>% 
+  summarise(BDP=sum(`Vrednost`, na.rm=TRUE)) %>% filter(Leto == 2017) %>% inner_join(populacija.evropa, by = "Drzava")
+
+bdp.evropa.2017$BDP <- (bdp.evropa.2017$BDP/bdp.evropa.2017$Vrednost)*1e6
+bdp.evropa.2017$Leto <- NULL
+bdp.evropa.2017$Vrednost <- NULL
+
+
+graf1 <- ggplot(bdp.evropa %>%
+                  filter(Drzava %in% c('Germany (until 1990 former territory of the FRG)',
+                                       'Greece', 'Slovenia', 'Czechia'),
+                         Leto %in% 2000:2017), aes(x=Leto, y=BDP*1e6/Vrednost, fill=Drzava)) +
+  geom_col(position="dodge") + xlab("Leto") + ylab("BDP na prebivalca") +
+  ggtitle("Primerjava štirih držav") + theme(axis.title=element_text(size=11), plot.title=element_text(size=15, hjust=0.5)) +
+  scale_fill_manual(values=c("Black","Blue","Red","Green"),name = "Država", breaks = c("Germany (until 1990 former territory of the FRG)","Greece","Slovenia","Czechia"), 
+                      labels = c("Nemčija","Grčija","Slovenija","Češka"))
 
 #print(graf1)
 
-# Naraščanje nekaterih deležev v slovenskem BDP
-graf2 <- ggplot(bdp.kvartali.slovenija, aes(x=Leto,y=BDP))+
-  geom_line(data = bdp.kvartali.slovenija %>% filter(Dejavnosti == 'A Kmetijstvo, lov, gozdarstvo, ribištvo', Leto != 2018),aes(x=Leto, y=BDP*4557/606), color ="green",size = 2)+
-  geom_line(data = bdp.kvartali.slovenija %>% filter(Dejavnosti == 'BCDE Rudarstvo, predelovalne dejavnosti, oskrba z elektriko in vodo, ravnanje z odplakami, saniranje okolja', Leto != 2018), color = "grey",size = 2)+
-  geom_line(data = bdp.kvartali.slovenija %>% filter(Dejavnosti == 'J Informacijske in komunikacijske dejavnosti', Leto != 2018),aes(x=Leto, y=BDP*4557/448), color = "blue",size = 2)+
-  geom_line(data = bdp.kvartali.slovenija %>% filter(Dejavnosti == 'F Gradbeništvo', Leto != 2018),aes(x=Leto, y=BDP*4557/1369), color="brown",size = 2)+
-  geom_line(data = bdp.kvartali.slovenija %>% filter(Dejavnosti == 'K Finančne in zavarovalniške dejavnosti', Leto != 2018),aes(x=Leto, y=BDP*4557/644),color ="red",size = 2)+
-  xlab("Leto") + ylab("Rast/padanje") + ggtitle("Spreminjanje nominalnega deleža dejavnosti A, BCDE, F, J in K")
+graf2 <- ggplot(bdp.kvartali.slovenija %>% ungroup() %>%
+                  filter(Leto == 1995,
+                         Dejavnosti %in% c('A Kmetijstvo, lov, gozdarstvo, ribištvo',
+                                           'BCDE Rudarstvo, predelovalne dejavnosti, oskrba z elektriko in vodo, ravnanje z odplakami, saniranje okolja',
+                                           'J Informacijske in komunikacijske dejavnosti',
+                                           'F Gradbeništvo',
+                                           'K Finančne in zavarovalniške dejavnosti')) %>%
+                  transmute(Dejavnosti, zacetniBDP=BDP) %>%
+                  inner_join(bdp.kvartali.slovenija) %>% filter(Leto != 2018),
+                aes(x=Leto, y=BDP/zacetniBDP, color=Dejavnosti)) +
+  geom_line(size = 2) + xlab("Leto") + ylab("Rast/padanje") +
+  scale_color_discrete(name = "Dejavnost", breaks = c("A Kmetijstvo, lov, gozdarstvo, ribištvo",
+                                 "BCDE Rudarstvo, predelovalne dejavnosti, oskrba z elektriko in vodo, ravnanje z odplakami, saniranje okolja",
+                                 "J Informacijske in komunikacijske dejavnosti",
+                                 "F Gradbeništvo",
+                                 "K Finančne in zavarovalniške dejavnosti"),labels = c("A","BCDE","J","F","K"))+
+  ggtitle("Spreminjanje nominalnega deleža dejavnosti A, BCDE, F, J in K")+
+  theme(axis.title=element_text(size=11), plot.title=element_text(size=15, hjust=0.5))
+  
 
-print(graf2)
+#print(graf2)
 
 
-graf3 <- ggplot(bdp.kvartali.evropa) + aes(x=Leto, y=BDP)+
-  geom_line(data = bdp.kvartali.evropa %>% filter(Drzava == 'Spain', Leto != 2018, Leto != 1995, Dejavnost == 'Industry (except construction)'))
-
+#Naraščanje izstopajočih deležev v skupnem evropskem BDP
+graf3 <- ggplot(bdp.kvartali.evropa.skupaj %>% ungroup()%>% 
+                  filter(Leto == 1995,
+                         Dejavnost %in% c('Agriculture, forestry and fishing',
+                                          'Industry (except construction)',
+                                          'Information and communication',
+                                          'Construction',
+                                          'Financial and insurance activities')) %>%
+                  transmute(Dejavnost, zacetniBDP=BDP) %>%
+                  inner_join(bdp.kvartali.evropa.skupaj) %>% filter(Leto != 2018),
+                aes(x=Leto,y=BDP/zacetniBDP,color=Dejavnost)) +
+  geom_line(size = 2) +
+  scale_color_discrete(name = "Dejavnost", breaks = c("Agriculture, forestry and fishing",
+                                                      "Industry (except construction)",
+                                                      "Information and communication",
+                                                      "Construction",
+                                                      "Financial and insurance activities"),labels = c("A","BCDE","J","F","K"))+
+  ylab("Rast/padanje") + ggtitle("Spreminjanje nominalnega deleža dejavnosti A, BCDE, F, J in K")
+  
 
 #print(graf3)
 
+#Zemljevid
 
+source("https://raw.githubusercontent.com/jaanos/APPR-2018-19/master/lib/uvozi.zemljevid.r")
 
+zemljevid <- uvozi.zemljevid("http://www.naturalearthdata.com/http//www.naturalearthdata.com/download/50m/cultural/ne_50m_admin_0_countries.zip",
+                             "ne_50m_admin_0_countries", mapa = "zemljevidi", pot.zemljevida = "", encoding = "UTF-8") %>% fortify()
 
-
-
-
-
-# Uvozimo zemljevid.
-#zemljevid <- uvozi.zemljevid("http://baza.fmf.uni-lj.si/OB.zip", "OB",
-#                             pot.zemljevida="OB", encoding="Windows-1250")
-#levels(zemljevid$OB_UIME) <- levels(zemljevid$OB_UIME) %>%
-#  { gsub("Slovenskih", "Slov.", .) } %>% { gsub("-", " - ", .) }
-#zemljevid$OB_UIME <- factor(zemljevid$OB_UIME, levels=levels(obcine$obcina))
-#zemljevid <- fortify(zemljevid)
-#
-# Izračunamo povprečno velikost družine
-#povprecja <- druzine %>% group_by(obcina) %>%
-#  summarise(povprecje=sum(velikost.druzine * stevilo.druzin) / sum(stevilo.druzin))
