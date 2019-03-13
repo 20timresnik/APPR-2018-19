@@ -1,17 +1,9 @@
 library(shiny)
 
-shinyUI(fluidPage(
-  
-  titlePanel("Slovenske občine"),
-  
-  tabsetPanel(
-      tabPanel("Velikost družine",
-               DT::dataTableOutput("druzine")),
-      
-      tabPanel("Število naselij",
-               sidebarPanel(
-                  uiOutput("pokrajine")
-                ),
-               mainPanel(plotOutput("naselja")))
-    )
-))
+fluidPage(
+  titlePanel(""),
+  sidebarPanel(
+    selectInput("id_poz", "Izberi dejavnost", choices = unique(bdp.slovenija$Dejavnosti))
+  ),
+  mainPanel(plotOutput("graf1"))
+)
