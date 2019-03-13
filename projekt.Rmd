@@ -10,6 +10,25 @@ output:
 runtime: shiny
 ---
 
+<style type="text/css">
+h1.title {
+  font-size: 27px;
+  color: Grey;
+}
+h4.author{
+  color:Grey;
+  margin-bottom: 40px;
+}
+h1.naslov{
+  font-size: 50px;
+  margin-bottom: 20px;
+}
+center.slika{
+  margin-top: 20px;
+  margin-bottom: 20px;
+}
+</style>
+
 ```{r setup, echo=FALSE, results='hide', message=FALSE, warning=FALSE}
 # Če želimo nastaviti pisave v PDF-ju, odkomentiramo
 # in sledimo navodilom v programu.
@@ -19,16 +38,20 @@ runtime: shiny
 source("lib/libraries.r", encoding="UTF-8")
 ```
 
-```{r rstudio, echo=FALSE, results='asis'}
+```{r rstudio, echo=FALSE, warning=FALSE, results='asis'}
 # Izris povezave do RStudia na Binderju
 source("lib/rstudio.r", encoding="UTF-8")
 ```
 
-# Izbira teme
+<center><h1 class='naslov'>Deleži BDP-ja v Sloveniji in Evropskih državah</h1> </center>
 
-Deleži BDP-ja v Sloveniji in Evropskih državah
+V projektni nalogi bom preučeval deleže ki sestavljajo BDP za Slovenijo in Evropske države
+
+<center class="slika">
 
 ![](slike/bdp.jpg)
+
+</center>
 
 ***
 
@@ -38,29 +61,40 @@ Deleži BDP-ja v Sloveniji in Evropskih državah
 source("uvoz/uvoz.r", encoding="UTF-8")
 ```
 
-Uvozil sem podatke za deleže v BDP-jih v obliki CSV iz statističnega urada Slovenije(za Slovenijo)
+Uvozil sem podatke za deleže v BDP-jih v obliki CSV iz statističnega urada Slovenije,
 ter iz Eurostat-a(za države Evropske Unije). Podatke sem nato razvrstil v dve razpredelnici,
 kjer so sedaj v obliki *tidy data*.
 
+&nbsp;
+&nbsp;
 
-1. `Slovenija` - podatki o deležih za Slovenijo
+
+1. **Tabela Slovenija** - podatki o deležih za Slovenijo
   - `Dejavnosti` - spremenljivka : Deleži ki sestavljajo BDP (neurejen faktor)
   - `Leto` - spremenljivka: Podatki so dostopni od leta 1995 naprej (števila od 1995 do 2018),
   - `Kvartal` - spremenljivka: Leto je razdeljeno na štiri kvartale (števila od 1 do 4),
   - `Vrednost`- meritev: Vrednost, izražena v mio €, stalne cene za referenčno leto 2010 (število).
 
-2. `Evropa` - podatki o deležih za Evropo
+&nbsp;
+&nbsp;
+
+2. **Tabela Evropa** - podatki o deležih za Evropo
   - `Drzava` - spremenljivka: Država iz EU(neurejen faktor),
   - `Dejavnost` - spremenljivka: Deleži ki sestavljajo BDP (neurejen faktor),
   - `Leto` - spremenljivka: Podatki so dostopni od leta 1995 naprej (števila od 1995 do 2018),
   - `Kvartal` - spremenljivka: Leto je razdeljeno na štiri kvartale (števila od 1 do 4),
   - `Vrednost` - meritev: Vrednost, izražena v mio €, stalne cene za referenčno leto 2010 (število).
 
+&nbsp;
+&nbsp;
 
 **Opomba1**: Za to, da sta tabeli za Slovenijo in Evropo v obliki *tidy data*, sem iz obeh odstranil vrstice s podatki o
-`dejavnosti C` (`predelovalne dejavnosti` oz. `manufacturing`), saj so podatki že vsebovani v večjem sklopu, 
-ki vsebuje `dejavnosti BCDE`.
-**Opomba2**: V tabeli za Evropo sem odstranil nepomembne stolpce za mojo analizo(`Enota`, `Sezona` in `Merilo`), saj sem že ob pridobivanju CSV datotek te nastavil tako, da se niso spreminjale. 
+*dejavnosti C* (*predelovalne dejavnosti* oz. *manufacturing*), saj so podatki že vsebovani v večjem sklopu, 
+ki vsebuje *dejavnosti BCDE*.
+
+&nbsp;
+
+**Opomba2**: V tabeli za Evropo sem odstranil nepomembne stolpce za mojo analizo(*Enota*, *Sezona* in *Merilo*), saj sem že ob pridobivanju CSV datotek te nastavil tako, da se niso spreminjale. 
 
 
 ***
@@ -70,26 +104,80 @@ ki vsebuje `dejavnosti BCDE`.
 ```{r vizualizacija, echo=FALSE, message=FALSE, warning=FALSE, results='hide'}
 source("vizualizacija/vizualizacija.r", encoding="UTF-8")
 ```
-Ob pregledovanju podatkov sem se odločil, da bom največ časa namenil analizi Slovenije, pri evropskih državah pa bom bolj pozoren na Španijo, Nemčijo, Češko in Grčijo. Navedena skupina držav se med seboj dodobra razlikuje po kulturi, načinu življenja in razmišljanja ter bo zato primerna testna skupina za ugotavljanje zaključkov.
 
-Prvi graf je nadvse splošen, poznan večini ljudi zaradi svoje preprostosti in celosti, predstavlja namreč BDP na prebivalca evropskih držav v primerjavi s Slovenijo za obdobje več kot 20 let.
-Pomembno je, da se podatki predstavljajo v tem primeru na osnovi 'per capita'(na prebivalca), saj ta odstrani učinek večjega BDP-ja zaradi številčnejšega naroda, in enako v drugi smeri.
-Kot smo pričakovali, prednjači Nemčija, medtem ko sta bili Španija in Grčija vrsto let zelo izenačeni, nakar je zadnja finančna kriza Grčijo prizadela mnogo bolj kot ostale testne države. V primerjavi Slovenije in Češke, se je naša prednost povečevala v letih do 2008, nato pa se začela zmanjševati, iz česar lahko ugotovimo, da so se rojaki iz vzhoda bolje spoprijeli z gospodarskimi izzivi 2. desetletja.
+&nbsp;
 
-print(graf1)
+Ob pregledovanju podatkov sem se odločil, da bom največ časa namenil analizi Slovenije, pri evropskih državah pa bom bolj pozoren na Nemčijo, Češko in Grčijo. Navedena skupina držav se med seboj dodobra razlikuje po kulturi, načinu življenja in razmišljanja ,ter bo zato primerna testna skupina za ugotavljanje zaključkov.
 
+&nbsp;
+&nbsp;
 
-***
-
-# Napredna analiza podatkov
-
-```{r analiza, echo=FALSE, message=FALSE, warning=FALSE}
-source("analiza/analiza.r", encoding="UTF-8")
+```{r zemljevid.bdp.evropa, echo=FALSE, message=FALSE, fig.align='center', warning = FALSE}
+print(zemljevid.bdp.evropa)
 ```
 
+&nbsp;
+&nbsp;
+
+```{r graf1, echo=FALSE, message=FALSE, fig.align='center', warning = FALSE}
+print(graf1)
+```
+
+&nbsp;
+
+Prvi graf je poznan večini ljudi zaradi svoje preprostosti in celosti, predstavlja namreč BDP evropskih držav v primerjavi s Slovenijo za obdobje več kot 20 let.
+Pomembno je, da se podatki predstavljajo v tem primeru na osnovi 'per capita'(na prebivalca), saj ta odstrani učinek večjega BDP-ja zaradi številčnejšega naroda, in enako v drugi smeri.
+Po pričakovanjih tu prednjači Nemčija, ki ima konstanto ekspanzijo gospodarstva, razen v času krize leta 2008. Na drugi strani vidimo situacijo v Grčiji katero je finančna kriza prizadela najmočneje, posledica česa je, da njen BDP stagnira že zadnjih 10let. Slovenija je imela lepo rast v letih do 2009, nakar se je zgodil velik upad, od takrat naprej pa so bile stopnje rasti mizerne, kar pa se spreminja v zadnjih letih, ko rastemo z večjo magnitudo.
+
+&nbsp;
+&nbsp;
+
+```{r graf6, echo=FALSE, message=FALSE, fig.align='center', warning = FALSE}
+print(graf6)
+```
+
+&nbsp;
+
+V malo drugačni obliki lahko pogledamo faktor nominalne rasti BDP-ja nekaterih držav(glede na bazno leto 1996). Tu vidimo nekatera ne najbolj zveneča imena(npr. Litva in Estonija), ki pa so v resnici zrasla veliko bolj kot ustaljene ekonomije(npr. Nemčija, Francija). Daleč največji porast pa je, predvsem v zadnjih letih, uspel Irski. Zagotovo gre nekaj zaslug pripisati državi in državljanom, a po podrobni analizi ugotovimo, da je ogromen del doprinesel Apple, ki ima družbo tam registrirano zaradi boljših davčnih razmer. Litva in Estonija pa po drugi strani organsko dosegata visoke stopnje rasti zaradi ugodnih gospodarskih razmer, zaradi česar postajata vedno bolj pomembni velesili v EU.
+
+&nbsp;
+&nbsp;
+
+**Razložitev dejavnosti:**  
+A = *Kmetijstvo, lov, gozdarstvo, ribištvo*  
+BCDE =  *Rudarstvo, predelovalne dejavnosti, oskrba z elektriko in vodo, ravnanje z odplakami, saniranje okolja*  
+F = *Gradbeništvo*  
+J = *Informacijske in komunikacijske dejavnosti*  
+K = *Finančne in zavarovalniške dejavnost*  
+
+&nbsp;
+&nbsp;
+
+```{r graf3, echo=FALSE, message=FALSE, fig.align='center', warning = FALSE}
+print(graf3)
+```
+
+&nbsp;
+
+Prikazano imamo spreminjanje nominalne vrednosti nekaterih dejavnosti, ki bodo posebej zanimiva za naše analiziranje. Nesporni prvak od leta 1995 je zagotovo IT sektor, ki je povečal svojo vrednost za kar 4-krat. V tem času so se sektorji 'A', 'K' in 'BCDE' povečali za podobno stopnjo, medtem ko se je gradbeništvo odrezalo najslabše in se po krizi počasi pobira šele v zadnjih 4 letih.
+
+&nbsp;
+&nbsp;
+
+```{r graf2, echo=FALSE, message=FALSE, fig.align='center', warning = FALSE}
+print(graf2)
+```
+
+&nbsp;
+
+Situacija v Sloveniji je pričakovano bolj raznolika od Evropske, ker predstavlja manjše gospodarstvo, občutljivo na vsakršne spremembe. Prvak v povečanju ostaja vseeno sektor 'J', a z manjšim naskokom. Jasno se vidi močen upad finančnih in zavarovalniških dejavnostih po bančni krizi v Sloveniji leta 2010; odtedaj tu vidimo stalno padanje. Še bolj izrazit je padec pri gradbeništvu, ki je povezan s propadom in ovadbami velikih gradbinskih kartelov, kar je sektor vrnilo na skoraj isto raven kot 15let prej. Predelovalne dejavnosti dosegajo organsko rast, medtem ko je kmetijstvo vsa leta na dokaj primerljivih ravneh.
+
+&nbsp;
+&nbsp;
+
 
 ***
 
-```{r shiny, echo=FALSE, warning=FALSE}
-shinyAppDir("shiny", options=list(width="100%", height=600))
+```{r shiny, echo=FALSE, warning = FALSE}
+shinyAppDir("shiny", options=list(width="100%", height=450))
 ```
