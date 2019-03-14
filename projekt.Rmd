@@ -175,6 +175,17 @@ Situacija v Sloveniji je pričakovano bolj raznolika od Evropske, ker predstavlj
 &nbsp;
 &nbsp;
 
+```{r graf4, echo=FALSE, message=FALSE, fig.align='center', warning = FALSE}
+print(graf4)
+```
+
+&nbsp;
+
+Zanimiv pogled na deleže je zagotovo tudi glede na razlike med kvartali. Bolj kmatijske dejavnosti so najbolj sezonske, kakor bi pričakovali, z največjo vrednostjo v drugem kvartalu, pomladi, ko vse cveti, ter najnižjo v zimskih mesecih 4. kvartala kjer so tla mrzla in neplodna. Podobna situacija je tudi pri gradbeništvu, ki je močno odvisno od vremena in zunanjih temperatur, isto pa ne bi mogli trditi za bančni sektor, kjer prednjačijo drugi sektorji. V finančnem svetu je najbolj "ploden" 1. kvartal, v katerem se podpisujejo nove pogodbe z bankami, sklepajo dodatne police pri zavarovalnicah in na novo pišejo poslovni načrti podjetij. Če ocenimo celotno sliko iz vseh panog, lahko ugotovimo da je najbolj produktiven drugi kvartal, v katerem je tudi malo dopustov in dela prostih dni, kar pozitivno vpliva na celotno sliko spomladanskih mesecev.
+
+&nbsp;
+&nbsp;
+
 
 ***
 
