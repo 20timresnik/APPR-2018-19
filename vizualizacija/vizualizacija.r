@@ -44,7 +44,7 @@ graf1 <- ggplot(bdp.evropa %>%
                                        'Greece', 'Slovenia'),
                          Leto %in% 2000:2017), aes(x=Leto, y=BDP*1e6/Vrednost, fill=Drzava)) +
   geom_col(position="dodge") + xlab("Leto") + ylab("BDP na prebivalca") +
-  ggtitle("Primerjava treh držav") + theme(axis.title=element_text(size=11), plot.title=element_text(size=15, hjust=0.5)) +
+  ggtitle("Primerjava treh evropskih držav") + theme(axis.title=element_text(size=11), plot.title=element_text(size=15, hjust=0.5)) +
   scale_fill_manual(values=c("Blue","Red","Green"),name = "Država", breaks = c("Germany (until 1990 former territory of the FRG)","Greece","Slovenia"), 
                       labels = c("Nemčija","Grčija","Slovenija"))
 
@@ -66,7 +66,7 @@ graf2 <- ggplot(bdp.slovenija %>% ungroup() %>%
                                  "F Gradbeništvo",
                                  "J Informacijske in komunikacijske dejavnosti",
                                  "K Finančne in zavarovalniške dejavnosti"),labels = c("A","BCDE","F","J","K"))+
-  ggtitle("Spreminjanje nominalnega deleža dejavnosti A, BCDE, F, J in K")+
+  ggtitle("Spreminjanje nominalnega deleža dejavnosti A, BCDE, F, J in K v SLO")+
   theme(axis.title=element_text(size=11), plot.title=element_text(size=15, hjust=0.5))
   
 
@@ -90,22 +90,33 @@ graf3 <- ggplot(bdp.kvartali.evropa.skupaj %>% ungroup()%>%
                                                       "Construction",
                                                       "Information and communication",
                                                       "Financial and insurance activities"),labels = c("A","BCDE","F","J","K"))+
-  ylab("Rast/padanje") + ggtitle("Spreminjanje nominalnega deleža dejavnosti A, BCDE, F, J in K")
+  ylab("Rast/padanje") + ggtitle("Spreminjanje nominalnega deleža dejavnosti A, BCDE, F, J in K v EU")+
+  theme(axis.title=element_text(size=11), plot.title=element_text(size=15, hjust=0.5))
   
 
 #print(graf3)
 
 #Razlika po kvartalih v Sloveniji
 
+naslovi <- c('A Kmetijstvo, lov, gozdarstvo, ribištvo' = "Kmetijstvo, lov, gozdarstvo, ribištvo",
+             'BCDE Rudarstvo, predelovalne dejavnosti, oskrba z elektriko in vodo, ravnanje z odplakami, saniranje okolja' = "Predelovalne dejavnosti",
+             'F Gradbeništvo' = "Gradbeništvo",
+             'K Finančne in zavarovalniške dejavnosti' = "Finančne in zavarovalniške dejavnosti")
+
 graf4 <- ggplot(bdp.kvartali.slovenija %>% 
                   filter(Dejavnosti %in% c('A Kmetijstvo, lov, gozdarstvo, ribištvo',
                                            'BCDE Rudarstvo, predelovalne dejavnosti, oskrba z elektriko in vodo, ravnanje z odplakami, saniranje okolja',
-                                           'J Informacijske in komunikacijske dejavnosti',
                                            'F Gradbeništvo',
-                                           'K Finančne in zavarovalniške dejavnosti'),
-                  Leto != 2018),
-                aes(x = Leto, y = BDP), facet_grid(cols = vars(Leto)) +
-  geom_point(size=2))
+                                           'K Finančne in zavarovalniške dejavnosti'), 
+                         Leto != 2018),
+                aes(x = Leto, y = BDP, color=factor(Kvartal))) + 
+  facet_wrap( ~ Dejavnosti, ncol = 2,
+              labeller = labeller(Dejavnosti = naslovi), 
+              scales = "free_y") +
+  geom_point(size=2, shape = 10) + 
+  labs(x="Leto",y="BDP v mio €", title = "Primerjava po kvartalih v SLO")+
+  scale_color_manual(name = "Kvartal",values=c("Blue","Green","Red", "Brown"))+
+  theme(axis.title=element_text(size=11), plot.title=element_text(size=15, hjust=0.5))
   
 
 #print(graf4)
@@ -122,9 +133,8 @@ graf6 <- ggplot(bdp.evropa %>% ungroup()%>%
                                                                   'Ireland',
                                                                   'France')),
                 aes(x=Leto,y=BDP/zacetniBDP,color=Drzava))+
-  geom_line(size = 2) + labs(x= "Leto", y = "Faktor rasti", title = "Rast BDP-jev")+
-  theme(axis.title=element_text(size=11), plot.title=element_text(size=15, hjust=0.5),
-        legend.title = element_text(face="bold"))+
+  geom_line(size = 2) + labs(x= "Leto", y = "Faktor rasti", title = "Rast BDP-jev nekaterih držav EU")+
+  theme(axis.title=element_text(size=11), plot.title=element_text(size=15, hjust=0.5))+
   scale_colour_discrete(name="Država",
                         breaks=c("Estonia",
                                  "Lithuania",
