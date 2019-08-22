@@ -99,7 +99,7 @@ ki vsebuje *dejavnosti BCDE*.
 
 ***
 
-# Analiza in vizualizacija podatkov
+# Analiza celotnega BDP
 
 ```{r vizualizacija, echo=FALSE, message=FALSE, warning=FALSE, results='hide'}
 source("vizualizacija/vizualizacija.r", encoding="UTF-8")
@@ -107,7 +107,7 @@ source("vizualizacija/vizualizacija.r", encoding="UTF-8")
 
 &nbsp;
 
-Ob pregledovanju podatkov sem se odločil, da bom največ časa namenil analizi Slovenije, pri evropskih državah pa bom bolj pozoren na Nemčijo, Češko in Grčijo. Navedena skupina držav se med seboj dodobra razlikuje po kulturi, načinu življenja in razmišljanja ,ter bo zato primerna testna skupina za ugotavljanje zaključkov.
+Ob pregledovanju podatkov sem se odločil, da bom največ časa namenil analizi Slovenije, pri evropskih državah pa bom bolj pozoren tudi na Nemčijo in Grčijo. Navedena skupina držav se med seboj dodobra razlikuje po kulturi, načinu življenja in razmišljanja, ter bo zato primerna testna skupina za ugotavljanje zaključkov.
 
 &nbsp;
 &nbsp;
@@ -117,6 +117,7 @@ print(zemljevid.bdp.evropa)
 ```
 
 &nbsp;
+Grafični prikaz BDP-ja na prebivalca(leto 2018) po državah nam pokaže dobro sliko z zemljevidom. Opazi se močna razlika med državami severne in južne Evrope, ter po drugi strani tudi razlika med "zahodnjaki" in "vzhodnjaki".
 &nbsp;
 
 ```{r graf1, echo=FALSE, message=FALSE, fig.align='center', warning = FALSE}
@@ -141,6 +142,14 @@ print(graf6)
 V malo drugačni obliki lahko pogledamo faktor nominalne rasti BDP-ja nekaterih držav(glede na bazno leto 1996). Tu vidimo nekatera ne najbolj zveneča imena(npr. Litva in Estonija), ki pa so v resnici zrasla veliko bolj kot ustaljene ekonomije(npr. Nemčija, Francija). Daleč največji porast pa je, predvsem v zadnjih letih, uspel Irski. Zagotovo gre nekaj zaslug pripisati državi in državljanom, a po podrobni analizi ugotovimo, da je ogromen del doprinesel Apple, ki ima družbo tam registrirano zaradi boljših davčnih razmer. Litva in Estonija pa po drugi strani organsko dosegata visoke stopnje rasti zaradi ugodnih gospodarskih razmer, zaradi česar postajata vedno bolj pomembni velesili v EU.
 
 &nbsp;
+&nbsp;
+
+#Analiza posameznih sektorjev
+
+&nbsp;
+
+V tem razdelku se bom bolj posvetil analizi spreminjanja različnih sektorjev, ki sestavljajo BDP. Podatki bodo najverjetneje nekoliko zanimivejši, saj se bodo podatki občutneje spreminjali glede na gospodarsko klimo, kvartal, itd.
+
 &nbsp;
 
 **Razložitev dejavnosti:**  
@@ -175,20 +184,26 @@ Situacija v Sloveniji je pričakovano bolj raznolika od Evropske, ker predstavlj
 &nbsp;
 &nbsp;
 
+```{r shiny, echo=FALSE, warning = FALSE}
+shinyAppDir("shiny", options=list(width="100%", height=450))
+```
+#Analiza sektorjev po kvartalih
+
 ```{r graf4, echo=FALSE, message=FALSE, fig.align='center', warning = FALSE}
 print(graf4)
 ```
 
 &nbsp;
 
-Zanimiv pogled na deleže je zagotovo tudi glede na razlike med kvartali. Bolj kmatijske dejavnosti so najbolj sezonske, kakor bi pričakovali, z največjo vrednostjo v drugem kvartalu, pomladi, ko vse cveti, ter najnižjo v zimskih mesecih 4. kvartala kjer so tla mrzla in neplodna. Podobna situacija je tudi pri gradbeništvu, ki je močno odvisno od vremena in zunanjih temperatur, isto pa ne bi mogli trditi za bančni sektor, kjer prednjačijo drugi sektorji. V finančnem svetu je najbolj "ploden" 1. kvartal, v katerem se podpisujejo nove pogodbe z bankami, sklepajo dodatne police pri zavarovalnicah in na novo pišejo poslovni načrti podjetij. Če ocenimo celotno sliko iz vseh panog, lahko ugotovimo da je najbolj produktiven drugi kvartal, v katerem je tudi malo dopustov in dela prostih dni, kar pozitivno vpliva na celotno sliko spomladanskih mesecev.
+Zanimiv pogled na deleže je zagotovo tudi glede na razlike med kvartali. Kmetijske dejavnosti so najbolj sezonske, kakor bi pričakovali, z največjo vrednostjo v drugem kvartalu, pomladi, ko vse cveti, ter najnižjo v zimskih mesecih 4. kvartala kjer so tla mrzla in neplodna. Podobna situacija je tudi pri gradbeništvu, ki je močno odvisno od vremena in zunanjih temperatur, isto pa ne bi mogli trditi za bančni sektor, kjer prednjačijo drugi sektorji. V finančnem svetu je najbolj "ploden" 1. kvartal, v katerem se podpisujejo nove pogodbe z bankami, sklepajo dodatne police pri zavarovalnicah in na novo pišejo poslovni načrti podjetij. Če ocenimo celotno sliko iz vseh panog, lahko ugotovimo da je najbolj produktiven drugi kvartal, v katerem je tudi malo dopustov in dela prostih dni, kar pozitivno vpliva na celotno sliko spomladanskih mesecev.
 
 &nbsp;
 &nbsp;
 
+```{r graf7, echo=FALSE, message=FALSE, fig.align='center', warning = FALSE}
+print(graf7)
+```
 
 ***
 
-```{r shiny, echo=FALSE, warning = FALSE}
-shinyAppDir("shiny", options=list(width="100%", height=450))
-```
+
