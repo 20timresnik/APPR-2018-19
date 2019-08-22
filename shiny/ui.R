@@ -5,5 +5,11 @@ fluidPage(
   sidebarPanel(
     selectInput("id_poz", "Izberi dejavnost", choices = unique(bdp.slovenija$Dejavnosti))
   ),
-  mainPanel(plotOutput("graf1"))
+  mainPanel(plotOutput("graf1")),
+  
+  tabPanel("Zemljevid",
+           sidebarPanel(
+             selectInput("id_poz", label = "Dejavnost", 
+                         choices = unique(bdp.evropa$Leto))),
+           mainPanel(plotOutput("zemljevid1")))
 )
