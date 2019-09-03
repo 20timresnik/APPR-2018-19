@@ -30,6 +30,7 @@ bdp.evropa.2017 <- podatki.evropa %>% drop_na(5) %>% group_by(Drzava, Leto) %>%
 
 bdp.evropa.2017$Drzava <- gsub("Germany (until 1990 former territory of the FRG)","Germany",bdp.evropa.2017$Drzava, fixed = TRUE)
 
+bdp.evropa$Drzava <- gsub("Germany (until 1990 former territory of the FRG)","Germany",bdp.evropa$Drzava, fixed = TRUE)
 
 bdp.evropa.2017$BDP <- (bdp.evropa.2017$BDP/bdp.evropa.2017$Vrednost)*1e6
 bdp.evropa.2017$Leto <- NULL
@@ -40,12 +41,12 @@ bdp.kvartali.slovenija <- podatki.slovenija %>% drop_na(4) %>% group_by(Dejavnos
 
 
 graf1 <- ggplot(bdp.evropa %>%
-                  filter(Drzava %in% c('Germany (until 1990 former territory of the FRG)',
+                  filter(Drzava %in% c('Germany',
                                        'Greece', 'Slovenia'),
                          Leto %in% 2000:2017), aes(x=Leto, y=BDP*1e6/Vrednost, fill=Drzava)) +
   geom_col(position="dodge") + xlab("Leto") + ylab("BDP na prebivalca") +
   ggtitle("Primerjava treh evropskih držav") + theme(axis.title=element_text(size=11), plot.title=element_text(size=15, hjust=0.5)) +
-  scale_fill_manual(values=c("Blue","Red","Green"),name = "Država", breaks = c("Germany (until 1990 former territory of the FRG)","Greece","Slovenia"), 
+  scale_fill_manual(values=c("Blue","Red","Dark Green"),name = "Država", breaks = c("Germany","Greece","Slovenia"), 
                       labels = c("Nemčija","Grčija","Slovenija"))
 
 #print(graf1)
@@ -66,7 +67,7 @@ graf2 <- ggplot(bdp.slovenija %>% ungroup() %>%
                                  "F Gradbeništvo",
                                  "J Informacijske in komunikacijske dejavnosti",
                                  "K Finančne in zavarovalniške dejavnosti"),labels = c("A","BCDE","F","J","K"))+
-  ggtitle("Spreminjanje deleža dejavnosti A, BCDE, F, J in K v SLO")+
+  ggtitle("Spreminjanje vrednosti različnih dejavnosti v SLO")+
   theme(axis.title=element_text(size=11), plot.title=element_text(size=15, hjust=0.5))+
   theme_light()
   
@@ -91,7 +92,7 @@ graf3 <- ggplot(bdp.kvartali.evropa.skupaj %>% ungroup()%>%
                                                       "Construction",
                                                       "Information and communication",
                                                       "Financial and insurance activities"),labels = c("A","BCDE","F","J","K"))+
-  ylab("Rast/padanje") + ggtitle("Spreminjanje deleža dejavnosti A, BCDE, F, J in K v EU")+
+  ylab("Rast/padanje") + ggtitle("Spreminjanje vrednosti različnih dejavnosti v EU")+
   theme(axis.title=element_text(size=11), plot.title=element_text(size=15, hjust=0.5))+
   theme_light()
   
@@ -130,7 +131,7 @@ graf6 <- ggplot(bdp.evropa %>% ungroup()%>%
                                                     Drzava %in% c('Estonia',
                                                                   'Lithuania',
                                                                   'Slovenia',
-                                                                  'Germany (until 1990 former territory of the FRG)',
+                                                                  'Germany',
                                                                   'Greece',
                                                                   'Ireland',
                                                                   'France')),
@@ -141,7 +142,7 @@ graf6 <- ggplot(bdp.evropa %>% ungroup()%>%
                         breaks=c("Estonia",
                                  "Lithuania",
                                  "Slovenia",
-                                 "Germany (until 1990 former territory of the FRG)",
+                                 "Germany",
                                  "Greece",
                                  "Ireland",
                                  "France"),

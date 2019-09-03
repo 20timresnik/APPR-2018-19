@@ -45,13 +45,15 @@ source("lib/rstudio.r", encoding="UTF-8")
 
 <center><h1 class='naslov'>Deleži BDP-ja v Sloveniji in Evropskih državah</h1> </center>
 
-V projektni nalogi bom preučeval deleže ki sestavljajo BDP za Slovenijo in Evropske države
-
 <center class="slika">
 
 ![](slike/bdp.jpg)
 
 </center>
+
+# Uvod
+
+V projektni nalogi bom preučeval deleže, ki sestavljajo BDP za Slovenijo in Evropske države. Najprej se bom posvetil analizi BDP-ja kot celote, za različne države, nato pa bom preučeval tudi posebej dejavnosti/sektorje, ki BDP sestavljajo. Tukaj bom dejavnosti preučeval na letni ravni, za zaključek projektne naloge pa jih bom še preveril po kvartalih.
 
 ***
 
@@ -105,19 +107,18 @@ ki vsebuje *dejavnosti BCDE*.
 source("vizualizacija/vizualizacija.r", encoding="UTF-8")
 ```
 
-&nbsp;
-
 Ob pregledovanju podatkov sem se odločil, da bom največ časa namenil analizi Slovenije, pri evropskih državah pa bom bolj pozoren tudi na Nemčijo in Grčijo. Navedena skupina držav se med seboj dodobra razlikuje po kulturi, načinu življenja in razmišljanja, ter bo zato primerna testna skupina za ugotavljanje zaključkov.
 
 &nbsp;
 &nbsp;
 
-```{r zemljevid.bdp.evropa, echo=FALSE, message=FALSE, fig.align='center', warning = FALSE}
-print(zemljevid.bdp.evropa)
+```{r shiny, echo=FALSE, warning = FALSE}
+shinyAppDir("shiny", options=list(width="100%", height=450))
 ```
 
 &nbsp;
-Grafični prikaz BDP-ja na prebivalca(leto 2018) po državah nam pokaže dobro sliko z zemljevidom. Opazi se močna razlika med državami severne in južne Evrope, ter po drugi strani tudi razlika med "zahodnjaki" in "vzhodnjaki".
+
+Grafični prikaz BDP-ja na prebivalca po državah nam pokaže dobro sliko z zemljevidom. Opazi se močna razlika med državami severne in južne Evrope, ter po drugi strani tudi razlika med "zahodnjaki" in "vzhodnjaki".
 &nbsp;
 
 ```{r graf1, echo=FALSE, message=FALSE, fig.align='center', warning = FALSE}
@@ -144,9 +145,7 @@ V malo drugačni obliki lahko pogledamo faktor nominalne rasti BDP-ja nekaterih 
 &nbsp;
 &nbsp;
 
-#Analiza posameznih sektorjev
-
-&nbsp;
+# Analiza posameznih sektorjev
 
 V tem razdelku se bom bolj posvetil analizi spreminjanja različnih sektorjev, ki sestavljajo BDP. Podatki bodo najverjetneje nekoliko zanimivejši, saj se bodo podatki občutneje spreminjali glede na gospodarsko klimo, kvartal, itd.
 
@@ -184,10 +183,10 @@ Situacija v Sloveniji je pričakovano bolj raznolika od Evropske, ker predstavlj
 &nbsp;
 &nbsp;
 
-```{r shiny, echo=FALSE, warning = FALSE}
-shinyAppDir("shiny", options=list(width="100%", height=450))
-```
-#Analiza sektorjev po kvartalih
+
+# Analiza sektorjev po kvartalih
+
+Ta razdelek bo namenjen kvartalom, z namenom opažanja sprememb oz. nesprememb v kvartalih pri različnih sektorjih.
 
 ```{r graf4, echo=FALSE, message=FALSE, fig.align='center', warning = FALSE}
 print(graf4)
@@ -200,9 +199,9 @@ Zanimiv pogled na deleže je zagotovo tudi glede na razlike med kvartali. Kmetij
 &nbsp;
 &nbsp;
 
-```{r graf7, echo=FALSE, message=FALSE, fig.align='center', warning = FALSE}
-print(graf7)
-```
+# Zaključek
+
+V nalogi sem dodobra spoznal razmerja gospodarskih moči pri evropskih državah in opazil zanimive stvari, ki sem jih nato poskušal interpretirati z novicami izven številčnih podatkov. Dobil sem novo širino pogleda na temo, ki sem jo izbral in dodobra spoznal programski jezik R, ki je nepogrešljiv pri delu z veliko podatki.
 
 ***
 
