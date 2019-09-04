@@ -53,7 +53,7 @@ source("lib/rstudio.r", encoding="UTF-8")
 
 # Uvod
 
-V projektni nalogi bom preučeval deleže, ki sestavljajo BDP za Slovenijo in Evropske države. Najprej se bom posvetil analizi BDP-ja kot celote, za različne države, nato pa bom preučeval tudi posebej dejavnosti/sektorje, ki BDP sestavljajo. Tukaj bom dejavnosti preučeval na letni ravni, za zaključek projektne naloge pa jih bom še preveril po kvartalih.
+V projektni nalogi bom preučeval deleže, ki sestavljajo BDP za Slovenijo in Evropske države. Najprej se bom posvetil analizi BDP-ja kot celote, za različne države, nato pa bom preučeval tudi posebej dejavnosti/sektorje, ki BDP sestavljajo. Tukaj bom dejavnosti preučeval na letni ravni, za zaključek projektne naloge pa jih bom preveril še po kvartalih.
 
 ***
 
@@ -94,8 +94,6 @@ kjer so sedaj v obliki *tidy data*.
 *dejavnosti C* (*predelovalne dejavnosti* oz. *manufacturing*), saj so podatki že vsebovani v večjem sklopu, 
 ki vsebuje *dejavnosti BCDE*.
 
-&nbsp;
-
 **Opomba2**: V tabeli za Evropo sem odstranil nepomembne stolpce za mojo analizo(*Enota*, *Sezona* in *Merilo*), saj sem že ob pridobivanju CSV datotek te nastavil tako, da se niso spreminjale. 
 
 
@@ -112,15 +110,6 @@ Ob pregledovanju podatkov sem se odločil, da bom največ časa namenil analizi 
 &nbsp;
 &nbsp;
 
-```{r shiny, echo=FALSE, warning = FALSE}
-shinyAppDir("shiny", options=list(width="100%", height=450))
-```
-
-&nbsp;
-
-Grafični prikaz BDP-ja na prebivalca po državah nam pokaže dobro sliko z zemljevidom. Opazi se močna razlika med državami severne in južne Evrope, ter po drugi strani tudi razlika med "zahodnjaki" in "vzhodnjaki".
-&nbsp;
-
 ```{r graf1, echo=FALSE, message=FALSE, fig.align='center', warning = FALSE}
 print(graf1)
 ```
@@ -132,7 +121,6 @@ Pomembno je, da se podatki predstavljajo v tem primeru na osnovi 'per capita'(na
 Po pričakovanjih tu prednjači Nemčija, ki ima konstanto ekspanzijo gospodarstva, razen v času krize leta 2008. Na drugi strani vidimo situacijo v Grčiji katero je finančna kriza prizadela najmočneje, posledica česa je, da njen BDP stagnira že zadnjih 10let. Slovenija je imela lepo rast v letih do 2009, nakar se je zgodil velik upad, od takrat naprej pa so bile stopnje rasti mizerne, kar pa se spreminja v zadnjih letih, ko rastemo z večjo magnitudo.
 
 &nbsp;
-&nbsp;
 
 ```{r graf6, echo=FALSE, message=FALSE, fig.align='center', warning = FALSE}
 print(graf6)
@@ -141,6 +129,16 @@ print(graf6)
 &nbsp;
 
 V malo drugačni obliki lahko pogledamo faktor nominalne rasti BDP-ja nekaterih držav(glede na bazno leto 1996). Tu vidimo nekatera ne najbolj zveneča imena(npr. Litva in Estonija), ki pa so v resnici zrasla veliko bolj kot ustaljene ekonomije(npr. Nemčija, Francija). Daleč največji porast pa je, predvsem v zadnjih letih, uspel Irski. Zagotovo gre nekaj zaslug pripisati državi in državljanom, a po podrobni analizi ugotovimo, da je ogromen del doprinesel Apple, ki ima družbo tam registrirano zaradi boljših davčnih razmer. Litva in Estonija pa po drugi strani organsko dosegata visoke stopnje rasti zaradi ugodnih gospodarskih razmer, zaradi česar postajata vedno bolj pomembni velesili v EU.
+
+&nbsp;
+
+```{r shiny, echo=FALSE, warning = FALSE}
+shinyAppDir("shiny", options=list(width="100%", height=450))
+```
+
+&nbsp;
+
+Grafični prikaz BDP-ja na prebivalca po državah nam pokaže dobro sliko z zemljevidom. Opazi se močna razlika med državami severne in južne Evrope, ter po drugi strani tudi razlika med "zahodnjaki" in "vzhodnjaki".
 
 &nbsp;
 &nbsp;
@@ -188,13 +186,15 @@ Situacija v Sloveniji je pričakovano bolj raznolika od Evropske, ker predstavlj
 
 Ta razdelek bo namenjen kvartalom, z namenom opažanja sprememb oz. nesprememb v kvartalih pri različnih sektorjih.
 
+&nbsp;
+
 ```{r graf4, echo=FALSE, message=FALSE, fig.align='center', warning = FALSE}
 print(graf4)
 ```
 
 &nbsp;
 
-Zanimiv pogled na deleže je zagotovo tudi glede na razlike med kvartali. Kmetijske dejavnosti so najbolj sezonske, kakor bi pričakovali, z največjo vrednostjo v drugem kvartalu, pomladi, ko vse cveti, ter najnižjo v zimskih mesecih 4. kvartala kjer so tla mrzla in neplodna. Podobna situacija je tudi pri gradbeništvu, ki je močno odvisno od vremena in zunanjih temperatur, isto pa ne bi mogli trditi za bančni sektor, kjer prednjačijo drugi sektorji. V finančnem svetu je najbolj "ploden" 1. kvartal, v katerem se podpisujejo nove pogodbe z bankami, sklepajo dodatne police pri zavarovalnicah in na novo pišejo poslovni načrti podjetij. Če ocenimo celotno sliko iz vseh panog, lahko ugotovimo da je najbolj produktiven drugi kvartal, v katerem je tudi malo dopustov in dela prostih dni, kar pozitivno vpliva na celotno sliko spomladanskih mesecev.
+Zanimiv pogled na deleže je zagotovo tudi glede na razlike med kvartali. Kmetijske dejavnosti so najbolj sezonske, kakor bi pričakovali, z največjo vrednostjo v drugem kvartalu, pomladi, ko vse cveti, ter najnižjo v zimskih mesecih 4. kvartala, kadar so tla mrzla in neplodna. Podobna situacija je tudi v gradbeništvu, ki je močno odvisno od vremena in zunanjih temperatur. V finančnem svetu je najbolj "ploden" 1. kvartal, v katerem se podpisujejo nove pogodbe z bankami, sklepajo dodatne police pri zavarovalnicah in na novo pišejo poslovni načrti podjetij. Če ocenimo celotno sliko iz vseh panog, lahko ugotovimo da je najbolj produktiven drugi kvartal, v katerem je tudi malo dopustov in dela prostih dni, kar pozitivno vpliva na celotno sliko spomladanskih mesecev.
 
 &nbsp;
 &nbsp;

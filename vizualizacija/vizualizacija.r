@@ -43,7 +43,7 @@ bdp.kvartali.slovenija <- podatki.slovenija %>% drop_na(4) %>% group_by(Dejavnos
 graf1 <- ggplot(bdp.evropa %>%
                   filter(Drzava %in% c('Germany',
                                        'Greece', 'Slovenia'),
-                         Leto %in% 2000:2017), aes(x=Leto, y=BDP*1e6/Vrednost, fill=Drzava)) +
+                         Leto %in% 1995:2017), aes(x=Leto, y=BDP*1e6/Vrednost, fill=Drzava)) +
   geom_col(position="dodge") + xlab("Leto") + ylab("BDP na prebivalca") +
   ggtitle("Primerjava treh evropskih držav") + theme(axis.title=element_text(size=11), plot.title=element_text(size=15, hjust=0.5)) +
   scale_fill_manual(values=c("Blue","Red","Dark Green"),name = "Država", breaks = c("Germany","Greece","Slovenia"), 
