@@ -10,6 +10,6 @@ fluidPage(
   tabPanel("Zemljevid",
            sidebarPanel(
              selectInput("letnica", label = "Leto", 
-                         choices = unique(bdp.evropa$Leto))),
+                         choices = unique(bdp.evropa.brez$Leto))),
            mainPanel(plotOutput("zemljevid1")))
 )
