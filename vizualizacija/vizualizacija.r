@@ -39,6 +39,8 @@ bdp.evropa.2017$Vrednost <- NULL
 bdp.kvartali.slovenija <- podatki.slovenija %>% drop_na(4) %>% group_by(Dejavnosti,Leto, Kvartal) %>%
   summarise(BDP=sum(Vrednost, na.rm = TRUE))
 
+bdp.evropa.brez <- bdp.evropa %>% filter(Leto != 1995)
+
 
 graf1 <- ggplot(bdp.evropa %>%
                   filter(Drzava %in% c('Germany',
@@ -51,6 +53,8 @@ graf1 <- ggplot(bdp.evropa %>%
 
 #print(graf1)
 
+barve <- c("darkgreen","gray63","gray3","dodgerblue4","red4")
+
 graf2 <- ggplot(bdp.slovenija %>% ungroup() %>%
                   filter(Leto == 1995,
                          Dejavnosti %in% c('A Kmetijstvo, lov, gozdarstvo, ribištvo',
@@ -61,15 +65,15 @@ graf2 <- ggplot(bdp.slovenija %>% ungroup() %>%
                   transmute(Dejavnosti, zacetniBDP=BDP) %>%
                   inner_join(bdp.slovenija) %>% filter(Leto != 2018),
                 aes(x=Leto, y=BDP/zacetniBDP, color=Dejavnosti)) +
-  geom_line(size = 1.5) + xlab("Leto") + ylab("Rast/padanje") +
-  scale_color_manual(values=c("Green", "Black", "Gray", "Blue", "Red") ,name = "Dejavnost", breaks = c("A Kmetijstvo, lov, gozdarstvo, ribištvo",
+  geom_jitter(size=2, shape=23) + xlab("Leto") + ylab("Rast/padanje") +
+  scale_color_manual(values=barve ,name = "Dejavnost", breaks = c("A Kmetijstvo, lov, gozdarstvo, ribištvo",
                                  "BCDE Rudarstvo, predelovalne dejavnosti, oskrba z elektriko in vodo, ravnanje z odplakami, saniranje okolja",
                                  "F Gradbeništvo",
                                  "J Informacijske in komunikacijske dejavnosti",
                                  "K Finančne in zavarovalniške dejavnosti"),labels = c("A","BCDE","F","J","K"))+
   ggtitle("Spreminjanje vrednosti različnih dejavnosti v SLO")+
   theme(axis.title=element_text(size=11), plot.title=element_text(size=15, hjust=0.5))+
-  theme_light()
+  stat_smooth(se=FALSE)
   
 
 #print(graf2)
@@ -85,16 +89,15 @@ graf3 <- ggplot(bdp.kvartali.evropa.skupaj %>% ungroup()%>%
                                           'Financial and insurance activities')) %>%
                   transmute(Dejavnost, zacetniBDP=BDP) %>%
                   inner_join(bdp.kvartali.evropa.skupaj) %>% filter(Leto != 2018),
-                aes(x=Leto,y=BDP/zacetniBDP,color=Dejavnost)) +
-  geom_line(size = 2) +
-  scale_color_manual(values=c("Green", "Black", "Gray", "Blue", "Red"), name = "Dejavnost", breaks = c("Agriculture, forestry and fishing",
+                aes(x=Leto,y=BDP/zacetniBDP,fill=Dejavnost)) +
+  geom_col(position = "fill") +
+  scale_fill_manual(values = barve, name = "Dejavnost", breaks = c("Agriculture, forestry and fishing",
                                                       "Industry (except construction)",
                                                       "Construction",
                                                       "Information and communication",
                                                       "Financial and insurance activities"),labels = c("A","BCDE","F","J","K"))+
-  ylab("Rast/padanje") + ggtitle("Spreminjanje vrednosti različnih dejavnosti v EU")+
-  theme(axis.title=element_text(size=11), plot.title=element_text(size=15, hjust=0.5))+
-  theme_light()
+  ylab("Delež") + ggtitle("Spreminjanje vrednosti različnih dejavnosti v EU")+
+  theme(axis.title=element_text(size=11), plot.title=element_text(size=15, hjust=0.5))
   
 
 #print(graf3)
@@ -129,33 +132,22 @@ graf6 <- ggplot(bdp.evropa %>% ungroup()%>%
                   transmute(Drzava, zacetniBDP=BDP) %>%
                   inner_join(bdp.evropa) %>% filter(Leto != 2018, Leto != 1995,
                                                     Drzava %in% c('Estonia',
-                                                                  'Lithuania',
-                                                                  'Slovenia',
-                                                                  'Germany',
-                                                                  'Greece',
                                                                   'Ireland',
                                                                   'France')),
                 aes(x=Leto,y=BDP/zacetniBDP,color=Drzava))+
-  geom_line(size = 2) + labs(x= "Leto", y = "Faktor rasti", title = "Rast BDP-jev nekaterih držav EU")+
+  geom_line(size= 1.3, linetype = 2,arrow = arrow(angle = 16, ends = "last", type = "closed")) + 
+  labs(x= "Leto", y = "Faktor rasti", title = "Rast BDP-jev nekaterih držav EU")+
   theme(axis.title=element_text(size=11), plot.title=element_text(size=15, hjust=0.5))+
-  scale_colour_discrete(name="Država",
+  scale_colour_manual(values=c("darkslategray","violetred4","springgreen4"), name="Država",
                         breaks=c("Estonia",
-                                 "Lithuania",
-                                 "Slovenia",
-                                 "Germany",
-                                 "Greece",
                                  "Ireland",
                                  "France"),
-                        labels=c("Estonija", 
-                                 "Litva", 
-                                 "Slovenija",
-                                 "Nemčija",
-                                 "Grčija",
+                        labels=c("Estonija",
                                  "Irska",
                                  "Francija")
                       )
 
-#print(graf6)
+print(graf6)
 
 naslovi2 <- c('Agriculture, forestry and fishing' = "Kmetijstvo, lov, gozdarstvo, ribištvo",
              'Industry (except construction)' = "Predelovalne dejavnosti",
