@@ -1,12 +1,8 @@
 library(shiny)
 
+#Shiny zemljevid BDP-ja po državah Evrope
+
 fluidPage(
-  #titlePanel(""),
-  #sidebarPanel(
-  #  selectInput("id_poz", "Izberi dejavnost", choices = unique(bdp.slovenija$Dejavnosti))
-  #),
-  #mainPanel(plotOutput("graf1")),
-  
   tabPanel("Zemljevid",
            sidebarPanel(
              selectInput("letnica", label = "Leto", 
