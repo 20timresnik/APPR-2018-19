@@ -1,27 +1,23 @@
 library(shiny)
+library(dplyr)
+library(ggplot2)
+
+bdp.evropa.brez <- bdp.evropa %>% filter(Leto != 1995, Leto!= 2018) %>% transmute(Leto, BDPPP=BDP*1e6/Vrednost)
 
 function(input, output) 
   {
-# output$graf1 <- renderPlot({
-#     ggplot(bdp.slovenija %>% filter(Dejavnosti == input$id_poz), aes(x = Leto, y = BDP)) + 
-#      geom_area()+
-#      labs(title = "Vrednost komponente BDP-ja skozi leta") + theme(plot.title = element_text(hjust = 0.5)) +
-#      ylab("Leto") + xlab("Vrednost")
-#  })
-
-  bdp.evropa.brez <- bdp.evropa %>% filter(Leto != 1995) #da mi ne bo izpisovalo leta 1995  
-  
+ 
   output$zemljevid1 <- renderPlot({
     ggplot() +
       geom_polygon(data=left_join(evropa, bdp.evropa.brez %>% filter(Leto == input$letnica), by=c("NAME"="Drzava")),
-                                    aes(x=long, y=lat, group=group, fill=BDP),alpha = 0.8, color = "black") + 
+                                    aes(x=long, y=lat, group=group, fill=BDPPP), color = "black") + 
                      coord_cartesian(xlim=c(-25, 40), ylim=c(35, 72)) +
-                     scale_fill_gradient2(low ="yellow", mid = "orange", high = "red", na.value = "white")+
-                     xlab("") + ylab("") + ggtitle("BDP po državah") +
-                     theme(plot.title = element_text(hjust = 0.5)) 
-    
-    
-    
+                     scale_fill_gradient2(low ="yellow", mid = "orange", high = "darkred", 
+                                          na.value = "white", name="Vrednost na prebivalca",
+                                          guide = "legend",
+                                          midpoint=30000) +
+                     xlab("") + ylab("") + ggtitle("BDP Evropa") +
+                     theme(plot.title = element_text(hjust = 0.5))
     
   })
   
