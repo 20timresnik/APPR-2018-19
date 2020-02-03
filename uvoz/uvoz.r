@@ -1,6 +1,12 @@
-library(readr)
-library(reshape2)
 library(dplyr)
+library(readr)
+library(tidyr)
+library(rgdal)
+library(rgeos)
+library(mosaic)
+library(maptools)
+library(reshape2)
+library(ggplot2)
 
 # 2. faza : Uvoz podatkov
 
@@ -80,3 +86,33 @@ populacija.evropa$Spol <- NULL
 populacija.evropa$Dodatno <- NULL
 
 populacija.evropa$Drzava <- as.factor(populacija.evropa$Drzava)
+bdp.evropa <- podatki.evropa %>% drop_na(5) %>% group_by(Drzava, Leto) %>% 
+  summarise(BDP=sum(`Vrednost`, na.rm=TRUE)) %>% inner_join(populacija.evropa, by = "Drzava")
+
+bdp.kvartali <- podatki.evropa %>% drop_na(5) %>% group_by(Drzava, Leto, Kvartal) %>%
+  summarise(BDP=sum(Vrednost, na.rm =TRUE))
+
+bdp.slovenija <- podatki.slovenija %>% drop_na(4) %>% group_by(Dejavnosti, Leto) %>%
+  summarise(BDP=sum(Vrednost, na.rm = TRUE))
+
+bdp.kvartali.evropa <- podatki.evropa %>% drop_na(5) %>% group_by(Drzava, Dejavnost, Leto) %>%
+  summarise(BDP=sum(Vrednost, na.rm =TRUE))
+
+bdp.kvartali.evropa.skupaj <- podatki.evropa %>% drop_na(5) %>% 
+  group_by(Dejavnost, Leto) %>% summarise(BDP=sum(Vrednost, na.rm = TRUE))
+
+bdp.evropa.2017 <- podatki.evropa %>% drop_na(5) %>% group_by(Drzava, Leto) %>% 
+  summarise(BDP=sum(`Vrednost`, na.rm=TRUE)) %>% filter(Leto == 2017) %>% inner_join(populacija.evropa, by = "Drzava")
+
+bdp.evropa.2017$Drzava <- gsub("Germany (until 1990 former territory of the FRG)","Germany",bdp.evropa.2017$Drzava, fixed = TRUE)
+
+bdp.evropa$Drzava <- gsub("Germany (until 1990 former territory of the FRG)","Germany",bdp.evropa$Drzava, fixed = TRUE)
+
+bdp.evropa.2017$BDP <- (bdp.evropa.2017$BDP/bdp.evropa.2017$Vrednost)*1e6
+bdp.evropa.2017$Leto <- NULL
+bdp.evropa.2017$Vrednost <- NULL
+
+bdp.kvartali.slovenija <- podatki.slovenija %>% drop_na(4) %>% group_by(Dejavnosti,Leto, Kvartal) %>%
+  summarise(BDP=sum(Vrednost, na.rm = TRUE))
+
+bdp.evropa.brez <- bdp.evropa %>% filter(Leto != 1995)
