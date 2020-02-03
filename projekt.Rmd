@@ -105,21 +105,6 @@ ki vsebuje *dejavnosti BCDE*.
 source("vizualizacija/vizualizacija.r", encoding="UTF-8")
 ```
 
-Ob pregledovanju podatkov sem se odločil, da bom največ časa namenil analizi Slovenije, pri evropskih državah pa bom bolj pozoren tudi na Nemčijo in Grčijo. Navedena skupina držav se med seboj dodobra razlikuje po kulturi, načinu življenja in razmišljanja, ter bo zato primerna testna skupina za ugotavljanje zaključkov.
-
-&nbsp;
-&nbsp;
-
-```{r graf1, echo=FALSE, message=FALSE, fig.align='center', warning = FALSE}
-print(graf1)
-```
-
-&nbsp;
-
-Prvi graf je poznan večini ljudi zaradi svoje preprostosti in celosti, predstavlja namreč BDP evropskih držav v primerjavi s Slovenijo za obdobje več kot 20 let.
-Pomembno je, da se podatki predstavljajo v tem primeru na osnovi 'per capita'(na prebivalca), saj ta odstrani učinek večjega BDP-ja zaradi številčnejšega naroda, in enako v drugi smeri.
-Po pričakovanjih tu prednjači Nemčija, ki ima konstanto ekspanzijo gospodarstva, razen v času krize leta 2008. Na drugi strani vidimo situacijo v Grčiji katero je finančna kriza prizadela najmočneje, posledica česa je, da njen BDP stagnira že zadnjih 10let. Slovenija je imela lepo rast v letih do 2009, nakar se je zgodil velik upad, od takrat naprej pa so bile stopnje rasti mizerne, kar pa se spreminja v zadnjih letih, ko rastemo z večjo magnitudo.
-
 &nbsp;
 
 ```{r graf6, echo=FALSE, message=FALSE, fig.align='center', warning = FALSE}
@@ -128,26 +113,32 @@ print(graf6)
 
 &nbsp;
 
-V malo drugačni obliki lahko pogledamo faktor nominalne rasti BDP-ja nekaterih držav(glede na bazno leto 1996). Tu vidimo nekatera ne najbolj zveneča imena(npr. Litva in Estonija), ki pa so v resnici zrasla veliko bolj kot ustaljene ekonomije(npr. Nemčija, Francija). Daleč največji porast pa je, predvsem v zadnjih letih, uspel Irski. Zagotovo gre nekaj zaslug pripisati državi in državljanom, a po podrobni analizi ugotovimo, da je ogromen del doprinesel Apple, ki ima družbo tam registrirano zaradi boljših davčnih razmer. Litva in Estonija pa po drugi strani organsko dosegata visoke stopnje rasti zaradi ugodnih gospodarskih razmer, zaradi česar postajata vedno bolj pomembni velesili v EU.
+Za začetek lahko pogledamo faktor nominalne rasti BDP-ja nekaterih držav(glede na bazno leto 1996). Tu vidimo nekatera ne najbolj zveneča imena(npr. Estonija in Slovenija), ki pa so v resnici zrasla veliko bolj kot ustaljene ekonomije(npr. Nemčija in Francija). Daleč največji porast pa je, predvsem v zadnjih letih, uspel Irski. Zagotovo gre nekaj zaslug pripisati državi in državljanom, a po podrobni analizi ugotovimo, da je ogromen del doprinesel Apple, ki ima družbo tam registrirano zaradi boljših davčnih razmer. Estonija in Slovenija pa po drugi strani organsko dosegata visoke stopnje rasti zaradi ugodnih gospodarskih razmer, zaradi česar postajata vedno bolj pomembni velesili v EU. Najslabšo zgodbo pa je spisala Grčija, ki je v hudih finančnih težavah zaradi česar ji zadnja leta BDP konstantno upada in je skoraj na isti ravni kot pred 20 leti.
 
 &nbsp;
 
 ```{r shiny, echo=FALSE, warning = FALSE}
-shinyAppDir("shiny", options=list(width="100%", height=450))
+shinyAppDir("shiny", options=list(width="100%", height=500))
+```
+
+Grafični prikaz BDP-ja na prebivalca po državah nam pokaže dobro sliko z zemljevidom s pomočjo Shiny-ja. Opazi se močna razlika med državami severne in južne Evrope, ter po drugi strani tudi razlika med "zahodnjaki" in "vzhodnjaki".
+
+```{r analiza, echo=FALSE, message=FALSE, warning=FALSE}
+source("analiza/analiza.r")
 ```
 
 &nbsp;
-
-Grafični prikaz BDP-ja na prebivalca po državah nam pokaže dobro sliko z zemljevidom. Opazi se močna razlika med državami severne in južne Evrope, ter po drugi strani tudi razlika med "zahodnjaki" in "vzhodnjaki".
-
+```{r graf9, echo=FALSE, message=FALSE, fig.align='center', warning = FALSE}
+print(graf9)
+```
 &nbsp;
-&nbsp;
+
+S pomočjo napredne analize lahko tudi naredimo projekcijo rasti BDP-ja Slovenije. Če si pomagamo s podatki iz prejšnjih let, lahko s pomočjo linearnih modelov napovemo vrednosti v prihodnjih letih. Projekcije, ki so bili narejene do leta 2025, kažejo, da se bo slovenski BDP povečeval in dosegel vrednosti okoli 20000€ na prebivalca v letu 2025.
 
 # Analiza posameznih sektorjev
 
 V tem razdelku se bom bolj posvetil analizi spreminjanja različnih sektorjev, ki sestavljajo BDP. Podatki bodo najverjetneje nekoliko zanimivejši, saj se bodo podatki občutneje spreminjali glede na gospodarsko klimo, kvartal, itd.
 
-&nbsp;
 
 **Razložitev dejavnosti:**  
 A = *Kmetijstvo, lov, gozdarstvo, ribištvo*  
@@ -176,7 +167,7 @@ print(graf2)
 
 &nbsp;
 
-Situacija v Sloveniji je pričakovano bolj raznolika od Evropske, ker predstavlja manjše gospodarstvo, občutljivo na vsakršne spremembe. Prvak v povečanju ostaja vseeno sektor 'J', a z manjšim naskokom. Jasno se vidi močen upad finančnih in zavarovalniških dejavnostih po bančni krizi v Sloveniji leta 2010; odtedaj tu vidimo stalno padanje. Še bolj izrazit je padec pri gradbeništvu, ki je povezan s propadom in ovadbami velikih gradbinskih kartelov, kar je sektor vrnilo na skoraj isto raven kot 15let prej. Predelovalne dejavnosti dosegajo organsko rast, medtem ko je kmetijstvo vsa leta na dokaj primerljivih ravneh.
+Situacija v Sloveniji je pričakovano bolj raznolika od Evropske, ker predstavlja manjše gospodarstvo, občutljivo na vsakršne spremembe. Prvak v povečanju ostaja vseeno sektor 'J', a z manjšim naskokom. Jasno se vidi močen upad finančnih in zavarovalniških dejavnostih po bančni krizi v Sloveniji leta 2010; odtedaj tu vidimo stalno padanje. Še bolj izrazit je padec pri gradbeništvu, ki je povezan s propadom in ovadbami velikih gradbinskih kartelov, kar je sektor vrnilo na skoraj isto raven kot 20let prej. Predelovalne dejavnosti dosegajo organsko rast, medtem ko je kmetijstvo vsa leta na dokaj primerljivih ravneh.
 
 &nbsp;
 &nbsp;
@@ -184,7 +175,7 @@ Situacija v Sloveniji je pričakovano bolj raznolika od Evropske, ker predstavlj
 
 # Analiza sektorjev po kvartalih
 
-Ta razdelek bo namenjen kvartalom, z namenom opažanja sprememb oz. nesprememb v kvartalih pri različnih sektorjih.
+Ta razdelek bo namenjen kvartalom, z namenom opažanja sprememb v vrednostih sektorjev v posameznih kvartalih.
 
 &nbsp;
 
@@ -197,7 +188,14 @@ print(graf4)
 Zanimiv pogled na deleže je zagotovo tudi glede na razlike med kvartali. Kmetijske dejavnosti so najbolj sezonske, kakor bi pričakovali, z največjo vrednostjo v drugem kvartalu, pomladi, ko vse cveti, ter najnižjo v zimskih mesecih 4. kvartala, kadar so tla mrzla in neplodna. Podobna situacija je tudi v gradbeništvu, ki je močno odvisno od vremena in zunanjih temperatur. V finančnem svetu je najbolj "ploden" 1. kvartal, v katerem se podpisujejo nove pogodbe z bankami, sklepajo dodatne police pri zavarovalnicah in na novo pišejo poslovni načrti podjetij. Če ocenimo celotno sliko iz vseh panog, lahko ugotovimo da je najbolj produktiven drugi kvartal, v katerem je tudi malo dopustov in dela prostih dni, kar pozitivno vpliva na celotno sliko spomladanskih mesecev.
 
 &nbsp;
+
+```{r graf7, echo=FALSE, message=FALSE, fig.align='center', warning = FALSE}
+print(graf7)
+```
+
 &nbsp;
+
+Z hitro primerjavo lahko pogledamo še situacijo v Nemčiji, veliki vzornici Slovenije v smislu razvoja. Vidimo, da so podatki dokaj različni, začenši z sektorjem A, kjer je situacija bolj stabilna skozi leta, razen v nekaj primerih ko je bilo vreme zelo ugodno za te dejavnosti in so vrednosti tam astronomske. V gradbeništvu se vrednosti gibljejo podobno kot v Sloveniji, nasploh pa cel sektor večinoma pada skozi leta in dosega manjšo rast šele v preteklih treh letih. Finančne storitve in borza so v Nemčiji veliko bolj razvite kot pri nas, zaradi česar vidimo visoke vrednosti v letih 1998-2002, v času dot-com mehurčka, nato pa hud padec in enakomerne doprinose skozi vse 4 kvartale. Predelovalne dejavnosti so še najbolj primerljive s trendom v Sloveniji, kar dokazuje, da je Slovenija nekakšen "podaljšek" Nemčije.
 
 # Zaključek
 
