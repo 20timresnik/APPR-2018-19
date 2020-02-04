@@ -115,4 +115,4 @@ bdp.evropa.2017$Vrednost <- NULL
 bdp.kvartali.slovenija <- podatki.slovenija %>% drop_na(4) %>% group_by(Dejavnosti,Leto, Kvartal) %>%
   summarise(BDP=sum(Vrednost, na.rm = TRUE))
 
-bdp.evropa.brez <- bdp.evropa %>% filter(Leto != 1995)
+bdp.evropa.brez <- bdp.evropa %>% filter(Leto != 1995, Leto!= 2018) %>% transmute(Leto, BDPPP=BDP*1e6/Vrednost)

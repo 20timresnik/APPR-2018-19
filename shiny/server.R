@@ -2,7 +2,7 @@ library(shiny)
 library(dplyr)
 library(ggplot2)
 
-bdp.evropa.brez <- bdp.evropa %>% filter(Leto != 1995, Leto!= 2018) %>% transmute(Leto, BDPPP=BDP*1e6/Vrednost)
+
 
 function(input, output) 
   {
